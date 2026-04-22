@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "synapse-layer"
+version = "1.0.3"
+authors = [
+  { name="Synapse Layer", email="founder.synapselayer@proton.me" },
+]
+description = "Universal memory layer for AI agents - Persistent, Private, Model-agnostic"
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Intended Audience :: Developers",
+]
+dependencies = [
+    "requests>=2.25.0",
+    "pydantic>=2.0.0",
+]
+
+[project.optional-dependencies]
+langchain = ["langchain-core>=0.1.0"]
+crewai = ["crewai>=0.1.0"]
+
+[project.urls]
+"Homepage" = "https://synapselayer.org"
+"Bug Tracker" = "https://github.com/SynapseLayer/synapse-sdk-python/issues"
+"Documentation" = "https://synapselayer.org/docs"
+"Repository" = "https://github.com/SynapseLayer/synapse-sdk-python"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["synapse_layer*"]
