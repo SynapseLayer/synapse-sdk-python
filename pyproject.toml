@@ -4,11 +4,11 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "synapse-layer"
-version = "2.3.1"
+version = "2.3.2"
 authors = [
   { name="Synapse Layer", email="founder.synapselayer@proton.me" },
 ]
-description = "Universal memory layer for AI agents - Persistent, Private, Model-agnostic"
+description = "Persistent memory infrastructure for AI agents — State Continuity Layer."
 readme = "README.md"
 requires-python = ">=3.9"
 classifiers = [
