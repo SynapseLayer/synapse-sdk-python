@@ -1,6 +1,6 @@
 # 🧠 Synapse Layer
 
-[![Python SDK](https://img.shields.io/badge/Python_SDK-1.0.0-blue?logo=python&logoColor=white)](https://pypi.org/project/synapse-layer/)
+[![Python SDK](https://img.shields.io/badge/Python_SDK-2.3.1-blue?logo=python&logoColor=white)](https://pypi.org/project/synapse-layer/)
 [![A2A Protocol](https://img.shields.io/badge/A2A_Protocol-v1.0-purple)](./site/docs/sdk/a2a-protocol.md)
 [![MCP Compatible](https://img.shields.io/badge/MCP-Compatible-6B4FBB?logo=data:image/svg+xml;base64,&logoColor=white)](https://modelcontextprotocol.io/)
 [![Zero-Knowledge](https://img.shields.io/badge/Zero--Knowledge-AES--256--GCM-success)](./site/docs/sdk/python.md)

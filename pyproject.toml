@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "synapse-layer"
-version = "1.0.3"
+version = "2.3.1"
 authors = [
   { name="Synapse Layer", email="founder.synapselayer@proton.me" },
 ]
