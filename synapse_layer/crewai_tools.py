@@ -8,6 +8,8 @@ Provides three CrewAI tools for Agent-to-Agent memory management:
 
 TQ Formula: TQ = (confidence_score * 0.4) + (recency_score * 0.3) + (usage_normalized * 0.3)
 
+Requires: pip install 'synapse-layer[crewai]'
+
 Author: Ismael Marchi
 License: Apache 2.0
 """
@@ -20,8 +22,15 @@ from pydantic import BaseModel, Field
 
 try:
     from crewai.tools import BaseTool
+    _CREWAI_AVAILABLE = True
 except ImportError:
-    raise ImportError("crewai is required for CrewAI tools. Install with: pip install 'synapse-layer[crewai]'")
+    _CREWAI_AVAILABLE = False
+
+if not _CREWAI_AVAILABLE:
+    raise ImportError(
+        "crewai is required for CrewAI tools. "
+        "Install with: pip install 'synapse-layer[crewai]'"
+    )
 
 from .a2a_client import SynapseA2AClient, TaskResult
 
@@ -123,10 +132,8 @@ class _SynapseBaseTool(BaseTool):
             loop = None
 
         if loop is None:
-            # No running loop, create new event loop
             return asyncio.run(coro)
         else:
-            # Running loop exists, use ThreadPoolExecutor
             with ThreadPoolExecutor(max_workers=1) as executor:
                 future = executor.submit(asyncio.run, coro)
                 return future.result()
@@ -166,18 +173,6 @@ class SynapseStoreMemoryTool(_SynapseBaseTool):
         source_type: str = "api_response",
         confidence: float = 0.8,
     ) -> str:
-        """
-        Synchronous wrapper for storing memory.
-
-        Args:
-            user_id: User UUID
-            content: Memory content
-            source_type: Memory source (default: api_response)
-            confidence: Confidence score 0.0-1.0 (default: 0.8)
-
-        Returns:
-            JSON string with TaskResult
-        """
         coro = self._async_run(user_id, content, source_type, confidence)
         result = self._run_sync(coro)
         return str(result)
@@ -189,18 +184,6 @@ class SynapseStoreMemoryTool(_SynapseBaseTool):
         source_type: str = "api_response",
         confidence: float = 0.8,
     ) -> TaskResult:
-        """
-        Asynchronous implementation of store_memory.
-
-        Args:
-            user_id: User UUID
-            content: Memory content
-            source_type: Memory source
-            confidence: Confidence score
-
-        Returns:
-            TaskResult
-        """
         async with SynapseA2AClient(api_key=self.api_key, base_url=self.base_url) as client:
             return await client.store_memory(
                 user_id=user_id,
@@ -216,18 +199,6 @@ class SynapseStoreMemoryTool(_SynapseBaseTool):
         source_type: str = "api_response",
         confidence: float = 0.8,
     ) -> str:
-        """
-        Async run method for CrewAI compatibility.
-
-        Args:
-            user_id: User UUID
-            content: Memory content
-            source_type: Memory source
-            confidence: Confidence score
-
-        Returns:
-            JSON string with TaskResult
-        """
         result = await self._async_run(user_id, content, source_type, confidence)
         return str(result)
 
@@ -243,13 +214,6 @@ class SynapseRecallMemoryTool(_SynapseBaseTool):
 
     Retrieves memories ordered by Trust Quotient (TQ) score.
     TQ = (confidence_score * 0.4) + (recency_score * 0.3) + (usage_normalized * 0.3)
-
-    Args:
-        api_key: Synapse Layer API key
-        base_url: API endpoint (default: Supabase Edge Function)
-
-    Returns:
-        TaskResult with list of retrieved memories
     """
 
     name: str = "synapse_recall_memory"
@@ -265,17 +229,6 @@ class SynapseRecallMemoryTool(_SynapseBaseTool):
         query: str,
         limit: int = 10,
     ) -> str:
-        """
-        Synchronous wrapper for recalling memory.
-
-        Args:
-            user_id: User UUID
-            query: Semantic search query
-            limit: Max memories to retrieve (default: 10)
-
-        Returns:
-            JSON string with TaskResult
-        """
         coro = self._async_run(user_id, query, limit)
         result = self._run_sync(coro)
         return str(result)
@@ -286,17 +239,6 @@ class SynapseRecallMemoryTool(_SynapseBaseTool):
         query: str,
         limit: int = 10,
     ) -> TaskResult:
-        """
-        Asynchronous implementation of recall_memory.
-
-        Args:
-            user_id: User UUID
-            query: Semantic search query
-            limit: Max memories to retrieve
-
-        Returns:
-            TaskResult
-        """
         async with SynapseA2AClient(api_key=self.api_key, base_url=self.base_url) as client:
             return await client.recall_memory(
                 user_id=user_id,
@@ -310,17 +252,6 @@ class SynapseRecallMemoryTool(_SynapseBaseTool):
         query: str,
         limit: int = 10,
     ) -> str:
-        """
-        Async run method for CrewAI compatibility.
-
-        Args:
-            user_id: User UUID
-            query: Semantic search query
-            limit: Max memories to retrieve
-
-        Returns:
-            JSON string with TaskResult
-        """
         result = await self._async_run(user_id, query, limit)
         return str(result)
 
@@ -335,14 +266,6 @@ class SynapseHandoverTool(_SynapseBaseTool):
     Tool for creating Neural Handover context to target model.
 
     Packages agent context with HMAC-SHA256 signature for secure transfer.
-    Supports handover to different AI models (Claude, GPT, etc.).
-
-    Args:
-        api_key: Synapse Layer API key
-        base_url: API endpoint (default: Supabase Edge Function)
-
-    Returns:
-        TaskResult with handover context and signature
     """
 
     name: str = "synapse_create_handover"
@@ -358,17 +281,6 @@ class SynapseHandoverTool(_SynapseBaseTool):
         target_model: str,
         summary: str,
     ) -> str:
-        """
-        Synchronous wrapper for creating handover.
-
-        Args:
-            user_id: User UUID
-            target_model: Target model ID
-            summary: Context summary
-
-        Returns:
-            JSON string with TaskResult
-        """
         coro = self._async_run(user_id, target_model, summary)
         result = self._run_sync(coro)
         return str(result)
@@ -379,17 +291,6 @@ class SynapseHandoverTool(_SynapseBaseTool):
         target_model: str,
         summary: str,
     ) -> TaskResult:
-        """
-        Asynchronous implementation of create_handover.
-
-        Args:
-            user_id: User UUID
-            target_model: Target model ID
-            summary: Context summary
-
-        Returns:
-            TaskResult
-        """
         async with SynapseA2AClient(api_key=self.api_key, base_url=self.base_url) as client:
             return await client.create_handover(
                 user_id=user_id,
@@ -403,17 +304,6 @@ class SynapseHandoverTool(_SynapseBaseTool):
         target_model: str,
         summary: str,
     ) -> str:
-        """
-        Async run method for CrewAI compatibility.
-
-        Args:
-            user_id: User UUID
-            target_model: Target model ID
-            summary: Context summary
-
-        Returns:
-            JSON string with TaskResult
-        """
         result = await self._async_run(user_id, target_model, summary)
         return str(result)
 

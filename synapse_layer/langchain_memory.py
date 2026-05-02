@@ -9,6 +9,8 @@ Implements Trust Quotient (TQ) formula for memory evaluation:
 Two adapters provided:
 1. SynapseChatHistory — BaseChatMessageHistory for persistent chat histories
 2. SynapseMemory — BaseMemory for general agent memory management
+
+Requires: pip install 'synapse-layer[langchain]'
 """
 
 import asyncio
@@ -20,10 +22,15 @@ try:
     from langchain_core.messages import BaseMessage, HumanMessage, AIMessage, SystemMessage
     from langchain_core.memory import BaseMemory
     from pydantic import Field, validator
-except ImportError as e:
+    _LANGCHAIN_AVAILABLE = True
+except ImportError:
+    _LANGCHAIN_AVAILABLE = False
+
+if not _LANGCHAIN_AVAILABLE:
     raise ImportError(
-        "langchain-core is required. Install: pip install langchain-core"
-    ) from e
+        "langchain-core is required for LangChain adapters. "
+        "Install with: pip install 'synapse-layer[langchain]'"
+    )
 
 from .a2a_client import SynapseA2AClient, TaskResult, TaskState
 
@@ -31,12 +38,12 @@ from .a2a_client import SynapseA2AClient, TaskResult, TaskState
 class SynapseChatHistory(BaseChatMessageHistory):
     """
     Chat message history backed by Synapse Layer persistent memory.
-    
+
     Uses store_memory to persist each message and recall_memory to load
     conversation context. Applies TQ formula for smart recall:
-    
+
         TQ = (confidence * 0.4) + (recency * 0.3) + (usage * 0.3)
-    
+
     Example:
         history = SynapseChatHistory(
             api_key="synapse-key",
@@ -64,17 +71,17 @@ class SynapseChatHistory(BaseChatMessageHistory):
     async def add_message(self, message: BaseMessage) -> None:
         """
         Add message to history and persist via Synapse Layer.
-        
+
         Automatically determines source_type from message class:
         - HumanMessage -> "user_input"
         - AIMessage -> "inference"
         - SystemMessage -> "system"
-        
+
         Args:
             message: LangChain BaseMessage instance
         """
         self._messages.append(message)
-        
+
         # Determine source type
         if isinstance(message, HumanMessage):
             source_type = "user_input"
@@ -91,7 +98,7 @@ class SynapseChatHistory(BaseChatMessageHistory):
     async def _persist(self, content: str, source_type: str) -> None:
         """
         Persist message content to Synapse Layer.
-        
+
         Args:
             content: Message text to store
             source_type: Origin type (user_input, inference, system)
@@ -117,18 +124,18 @@ class SynapseChatHistory(BaseChatMessageHistory):
 class SynapseMemory(BaseMemory):
     """
     General agent memory backed by Synapse Layer persistent storage.
-    
+
     Implements BaseMemory interface for LangChain agents. Applies Trust Quotient
     formula to all recall operations:
-    
+
         TQ = (confidence * 0.4) + (recency * 0.3) + (usage * 0.3)
-    
+
     Supports:
     - Persistent memory across sessions
     - Semantic search via pgvector HNSW
-    - Multi-model context sharing via Neural Handover
+    - Multi-model context sharing
     - Automatic conflict resolution via Consensus Engine
-    
+
     Example:
         memory = SynapseMemory(
             api_key="synapse-key",
@@ -167,13 +174,13 @@ class SynapseMemory(BaseMemory):
     async def load_memory_variables(self, inputs: Dict[str, Any]) -> Dict[str, Any]:
         """
         Load relevant memories based on input query.
-        
+
         Uses recall_memory with TQ weighting to find relevant context:
             TQ = (confidence * 0.4) + (recency * 0.3) + (usage * 0.3)
-        
+
         Args:
             inputs: Dict with at least input_key containing the query
-            
+
         Returns:
             Dict with memory_key -> formatted memory text
         """
@@ -187,12 +194,12 @@ class SynapseMemory(BaseMemory):
     async def _recall(self, query: str) -> str:
         """
         Recall memories matching query.
-        
+
         Applies Trust Quotient formula and formats results.
-        
+
         Args:
             query: Natural language query
-            
+
         Returns:
             Formatted memory context string
         """
@@ -226,22 +233,20 @@ class SynapseMemory(BaseMemory):
     def save_context(self, inputs: Dict[str, Any], outputs: Dict[str, str]) -> None:
         """
         Save input/output pair to memory (sync wrapper).
-        
+
         For async operation, use _store directly.
-        
+
         Args:
             inputs: Agent inputs dict
             outputs: Agent outputs dict
         """
-        # For sync context, we can't await. Use asyncio.run if in main thread.
         input_text = inputs.get(self.input_key, "")
         output_text = outputs.get("output", "")
-        
+
         if input_text:
             try:
                 asyncio.run(self._store(input_text, "user_input"))
             except RuntimeError:
-                # Already in event loop, schedule as task
                 pass
 
         if output_text:
@@ -253,7 +258,7 @@ class SynapseMemory(BaseMemory):
     async def _store(self, content: str, source_type: str) -> None:
         """
         Store content to Synapse memory.
-        
+
         Args:
             content: Text to store
             source_type: Origin type (user_input, inference, system)
@@ -274,7 +279,7 @@ class SynapseMemory(BaseMemory):
     def clear(self) -> None:
         """
         Clear operation not supported for persistent Synapse memory.
-        
+
         Memories are designed to persist across sessions. To remove specific
         memories, use SynapseA2AClient.forget_memory() directly.
         """
