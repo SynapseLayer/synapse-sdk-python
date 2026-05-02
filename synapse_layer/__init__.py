@@ -5,7 +5,7 @@ Persistent, Private, Model-agnostic.
 MCP-native. LangChain-compatible. A2A-ready.
 """
 
-__version__ = "1.0.2"
+__version__ = "2.3.0"
 
 from .a2a_client import SynapseA2AClient
 from .langchain_memory import SynapseMemory

@@ -1,6 +1,7 @@
 # 🧠 Synapse Layer
 
-[![Python SDK](https://img.shields.io/badge/Python_SDK-1.0.0-blue?logo=python&logoColor=white)](https://pypi.org/project/synapse-layer/)
+[![Python SDK](https://img.shields.io/badge/Python_SDK-2.3.0-blue?logo=python&logoColor=white)](https://pypi.org/project/synapse-layer/)
+[![PyPI Version](https://img.shields.io/pypi/v/synapse-layer?label=PyPI&color=blue)](https://pypi.org/project/synapse-layer/)
 [![A2A Protocol](https://img.shields.io/badge/A2A_Protocol-v1.0-purple)](./site/docs/sdk/a2a-protocol.md)
 [![MCP Compatible](https://img.shields.io/badge/MCP-Compatible-6B4FBB?logo=data:image/svg+xml;base64,&logoColor=white)](https://modelcontextprotocol.io/)
 [![Zero-Knowledge](https://img.shields.io/badge/Zero--Knowledge-AES--256--GCM-success)](./site/docs/sdk/python.md)
@@ -153,10 +154,8 @@ Agents can discover and validate Synapse Layer capabilities by reading this file
 
 ## Installation
 
-> **Status:** Pre-release. PyPI and npm packages are coming soon (v1.0.0 stable release).
-> In the meantime, install directly from the repository.
-
-### Python SDK (pre-release)
+> **Status:** Released on [PyPI](https://pypi.org/project/synapse-layer/) — `pip install synapse-layer==2.3.0`
+### Python SDK
 
 ```bash
 # Install directly from GitHub (works today)
