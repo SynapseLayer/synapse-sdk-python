@@ -5,7 +5,7 @@
 ║  Classe principal para integração com LangChain, LlamaIndex    ║
 ║  e qualquer framework Python de agentes de IA.                 ║
 ║                                                                ║
-║  ZERO-KNOWLEDGE: Toda encriptação/decriptação acontece         ║
+║  PRIVACY-FIRST: Toda encriptação/decriptação acontece         ║
 ║  AQUI no client. O servidor Supabase NUNCA vê texto plano.     ║
 ║                                                                ║
 ║  Uso:                                                          ║
@@ -280,7 +280,7 @@ class SynapseMemory(BaseMemory):
     """
     Synapse Layer Memory — LangChain-Compatible.
 
-    Camada de memória persistente com encriptação Zero-Knowledge.
+    Camada de memória persistente com encriptação AES-256-GCM. Server never sees plaintext.
     Funciona como drop-in replacement para qualquer BaseMemory do LangChain.
 
     A encriptação/decriptação acontece INTEIRAMENTE nesta classe.
@@ -480,7 +480,7 @@ class SynapseMemory(BaseMemory):
         embedding: Optional[List[float]] = None,
     ) -> str:
         """
-        Armazena uma nova memória com encriptação Zero-Knowledge.
+        Armazena uma nova memória com encriptação AES-256-GCM — server never sees plaintext.
 
         Fluxo:
         1. Gera embedding do texto plano (local ou via API)
@@ -519,7 +519,7 @@ class SynapseMemory(BaseMemory):
                 )
             embedding = self._embedding_fn(content)
 
-        # 2. Encriptar conteúdo (ZERO-KNOWLEDGE — acontece aqui no client!)
+        # 2. Encriptar conteúdo (AES-256-GCM — acontece aqui no client!)
         encrypted = _encrypt(content, self._password)
 
         # 3. Gerar fact hash (para detecção de conflitos sem decriptar)
@@ -613,7 +613,7 @@ class SynapseMemory(BaseMemory):
         if not result.data:
             result_memories = []
         else:
-            # 3. Decriptar cada memória (ZERO-KNOWLEDGE: decriptação client-side!)
+            # 3. Decriptar cada memória (AES-256-GCM: decriptação client-side!)
             memories: List[Memory] = []
             for row in result.data:
                 # Filtrar por intent se especificado
@@ -811,5 +811,5 @@ class SynapseMemory(BaseMemory):
         return (
             f"SynapseMemory(user_id='{self._user_id}', "
             f"session='{self._session_id}', "
-            f"zero_knowledge=True)"
+            f"encrypted=True)"
         )
