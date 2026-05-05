@@ -21,7 +21,7 @@ import aiohttp
 
 
 # Constants
-DEFAULT_BASE_URL = "https://rbeycxzizrrdmxpilepc.supabase.co/functions/v1/mcp-server"
+DEFAULT_BASE_URL = "https://forge.synapselayer.org/api/mcp"
 VALID_SKILL_IDS = {
     "store_memory",
     "recall_memory",

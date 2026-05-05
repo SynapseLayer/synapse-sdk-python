@@ -1,0 +1,236 @@
+Metadata-Version: 2.4
+Name: synapse-layer
+Version: 2.3.3
+Summary: Persistent memory infrastructure for AI agents — State Continuity Layer.
+Author-email: Synapse Layer <founder.synapselayer@proton.me>
+Project-URL: Homepage, https://synapselayer.org
+Project-URL: Bug Tracker, https://github.com/SynapseLayer/synapse-sdk-python/issues
+Project-URL: Documentation, https://synapselayer.org/docs
+Project-URL: Repository, https://github.com/SynapseLayer/synapse-sdk-python
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Intended Audience :: Developers
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: requests>=2.25.0
+Requires-Dist: pydantic>=2.0.0
+Requires-Dist: aiohttp>=3.8.0
+Provides-Extra: langchain
+Requires-Dist: langchain-core>=0.1.0; extra == "langchain"
+Provides-Extra: crewai
+Requires-Dist: crewai>=0.1.0; extra == "crewai"
+Dynamic: license-file
+
+# Synapse Layer
+
+[![PyPI](https://img.shields.io/pypi/v/synapse-layer?label=PyPI&color=blue)](https://pypi.org/project/synapse-layer/)
+[![MCP Compatible](https://img.shields.io/badge/MCP-Compatible-6B4FBB)](https://modelcontextprotocol.io/)
+[![AES-256-GCM](https://img.shields.io/badge/AES--256--GCM-Encrypted_at_Rest-success)](https://github.com/SynapseLayer/synapse-sdk-python)
+[![Server Never Sees Plaintext](https://img.shields.io/badge/Server-Never_Sees_Plaintext-informational)](https://github.com/SynapseLayer/synapse-sdk-python)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](./LICENSE)
+[![Tests Passing](https://img.shields.io/badge/Tests-Passing-brightgreen)](https://github.com/SynapseLayer/synapse-sdk-python)
+
+> **RAG retrieves. Synapse remembers.**
+
+Persistent memory infrastructure for AI agents — encrypted, governed, and cross-agent.
+
+---
+
+## Why Synapse?
+
+Superpowers proved agents need discipline. Synapse provides the **continuity layer** that makes that discipline persistent across sessions, tools, and handoffs.
+
+### Key Capabilities
+
+| Capability | Description |
+|---|---|
+| **State Continuity** | OAuth for AI Memory. Persistent context across sessions and models. |
+| **Privacy First** | Server never sees plaintext. AES-256-GCM encrypted at rest, server-side. |
+| **Agent-Native** | 30-second install. Built for the MCP ecosystem. |
+| **Cross-Agent** | Share memory between agents via A2A protocol. |
+| **Trust Quotient** | Weighted memory ranking: confidence, recency, and usage. |
+
+---
+
+## Install
+
+```bash
+pip install synapse-layer
+```
+
+### Optional Integrations
+
+```bash
+pip install synapse-layer[langchain]
+pip install synapse-layer[crewai]
+```
+
+---
+
+## Quick Start
+
+### Core Client (always available)
+
+```python
+from synapse_layer import SynapseA2AClient
+
+async with SynapseA2AClient(api_key="your-key") as client:
+    # Store a memory
+    await client.store_memory(
+        user_id="agent-001",
+        content="User prefers dark mode and Portuguese.",
+        source_type="user_input",
+        confidence=0.95
+    )
+
+    # Recall memories
+    result = await client.recall_memory(
+        user_id="agent-001",
+        query="What are the user preferences?",
+        limit=10
+    )
+```
+
+### LangChain Adapter (requires `langchain-core`)
+
+```python
+from synapse_layer import SynapseMemory
+
+memory = SynapseMemory(
+    api_key="your-key",
+    user_id="agent-001",
+    input_key="input",
+    memory_key="history"
+)
+
+# Use with any LangChain agent
+variables = await memory.load_memory_variables({"input": "What do I know?"})
+```
+
+### CrewAI Tools (requires `crewai`)
+
+```python
+from synapse_layer import SynapseStoreMemoryTool, SynapseRecallMemoryTool
+
+store_tool = SynapseStoreMemoryTool(api_key="your-key")
+recall_tool = SynapseRecallMemoryTool(api_key="your-key")
+
+# Use as CrewAI tools in your agents
+```
+
+---
+
+## Architecture
+
+```
+┌───────────────────────────────────────────────────────────┐
+│                     YOUR AGENT                           │
+│              (Claude, GPT-4o, Gemini, etc.)               │
+└─────────────────────────────┬─────────────────────────────┘
+                              │
+                    ┌─────────┴─────────┐
+                    │   synapse-layer   │
+                    │    Python SDK     │
+                    └─────────┬─────────┘
+                              │
+              ┌─────────────┴─────────────┐
+              │    SYNAPSE LAYER VAULT    │
+              │                           │
+              │  ✓ AES-256-GCM encrypted  │
+              │  ✓ Server-side at rest     │
+              │  ✓ Per-operation random IV  │
+              │  ✓ Trust Quotient scoring  │
+              └─────────────┬─────────────┘
+                              │
+              ┌───────┴───────┐
+              │               │
+              ▼               ▼
+     ┌────────────┐  ┌────────────┐
+     │  Session 2  │  │  Session 3  │
+     │  (GPT-4o)   │  │  (Gemini)   │
+     │  recalls ✓  │  │  recalls ✓  │
+     └────────────┘  └────────────┘
+```
+
+---
+
+## Security Model
+
+| Layer | Implementation |
+|---|---|
+| **Encryption** | AES-256-GCM with per-operation random IV. GCM auth tag validated on every read. |
+| **Key Management** | Keys rotated per environment. Never logged. |
+| **Privacy** | Differential privacy via Gaussian noise on embeddings. |
+| **Validation** | Intent validation pipeline with confidence scoring. |
+
+> The server never sees plaintext. All sensitive data is encrypted before storage.
+
+---
+
+## API Reference
+
+### `SynapseA2AClient`
+
+Core async client for the Synapse Layer A2A protocol (JSON-RPC 2.0 over HTTPS).
+
+| Method | Description |
+|---|---|
+| `store_memory()` | Store encrypted memory with semantic embedding |
+| `recall_memory()` | Retrieve memories ranked by Trust Quotient |
+| `create_handover()` | Create signed context for cross-agent transfer |
+| `forget_memory()` | Soft-delete specific memories |
+
+### `SynapseMemory` *(requires langchain-core)*
+
+LangChain `BaseMemory` adapter for persistent agent memory.
+
+### `SynapseChatHistory` *(requires langchain-core)*
+
+LangChain `BaseChatMessageHistory` for persistent chat histories.
+
+### CrewAI Tools *(requires crewai)*
+
+- `SynapseStoreMemoryTool` — Store memories
+- `SynapseRecallMemoryTool` — Recall memories
+- `SynapseHandoverTool` — Cross-agent context transfer
+
+---
+
+## Trust Quotient (TQ)
+
+Memories are ranked using a weighted scoring formula:
+
+```
+TQ = f(confidence, recency, usage)
+```
+
+Higher TQ scores surface the most relevant and reliable memories first. The exact weights are proprietary and dynamically calibrated.
+
+---
+
+## Links
+
+- **Website**: [synapselayer.org](https://synapselayer.org)
+- **Forge (Dashboard)**: [forge.synapselayer.org](https://forge.synapselayer.org)
+- **Documentation**: [synapselayer.org/docs](https://synapselayer.org/docs)
+- **Issues**: [GitHub Issues](https://github.com/SynapseLayer/synapse-sdk-python/issues)
+- **MCP Server**: [Smithery](https://smithery.ai/server/@nicholasmarchi/synapse-layer)
+
+---
+
+## License
+
+Apache 2.0 — see [LICENSE](./LICENSE) for details.
+
+---
+
+<p align="center">
+  <strong>Synapse Layer</strong><br>
+  Persistent memory infrastructure for AI agents.<br><br>
+  <a href="https://pypi.org/project/synapse-layer/">PyPI</a> ·
+  <a href="https://synapselayer.org">Website</a> ·
+  <a href="https://forge.synapselayer.org">Forge</a>
+</p>
