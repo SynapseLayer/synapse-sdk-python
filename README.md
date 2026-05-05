@@ -13,6 +13,25 @@ Persistent memory infrastructure for AI agents — encrypted, governed, and cros
 
 ---
 
+## ⚡ 30-Second Quickstart
+
+```bash
+pip install synapse-layer
+```
+
+```python
+from synapse_layer import Synapse
+
+s = Synapse(token="sk_connect_YOUR_TOKEN")
+
+s.save("user likes coffee")
+print(s.recall("what does user like?"))
+```
+
+Get your token at [forge.synapselayer.org](https://forge.synapselayer.org) → Dashboard → Connect
+
+---
+
 ## Why Synapse?
 
 Superpowers proved agents need discipline. Synapse provides the **continuity layer** that makes that discipline persistent across sessions, tools, and handoffs.

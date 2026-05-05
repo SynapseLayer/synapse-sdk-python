@@ -18,6 +18,7 @@ __version__ = "2.3.3"
 
 # Core — always importable, zero optional deps
 from .a2a_client import SynapseA2AClient
+from .client import Synapse
 
 
 # ---------------------------------------------------------------------------
@@ -60,6 +61,7 @@ __all__ = [
     "__version__",
     # Core
     "SynapseA2AClient",
+    "Synapse",
     # LangChain (lazy)
     "SynapseMemory",
     "SynapseChatHistory",
