@@ -41,7 +41,7 @@ Superpowers proved agents need discipline. Synapse provides the **continuity lay
 | Capability | Description |
 |---|---|
 | **State Continuity** | OAuth for AI Memory. Persistent context across sessions and models. |
-| **Privacy First** | AES-256-GCM encrypted at rest with per-operation random IV. PII redaction pipeline. |
+| **Privacy First** | Server never sees plaintext. AES-256-GCM encrypted at rest with per-operation random IV. |
 | **Agent-Native** | 30-second install. Built for the MCP ecosystem. |
 | **Cross-Agent** | Share memory between agents via A2A protocol. |
 | **Trust Quotient** | Weighted memory ranking: confidence, recency, and usage. |
@@ -159,7 +159,7 @@ recall_tool = SynapseRecallMemoryTool(api_key="your-key")
 | **Privacy** | Differential privacy via Gaussian noise on embeddings. |
 | **Validation** | Intent validation pipeline with confidence scoring. |
 
-> All sensitive data is AES-256-GCM encrypted at rest with per-operation random IV.
+> Server never sees plaintext. All sensitive data is AES-256-GCM encrypted at rest with per-operation random IV. Designed for LGPD/GDPR alignment.
 
 ---
 

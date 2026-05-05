@@ -14,7 +14,7 @@ CrewAI tools (requires crewai):
     from synapse_layer import SynapseStoreMemoryTool, SynapseRecallMemoryTool
 """
 
-__version__ = "2.3.3"
+__version__ = "2.4.0"
 
 # Core — always importable, zero optional deps
 from .a2a_client import SynapseA2AClient
