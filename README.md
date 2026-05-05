@@ -3,7 +3,7 @@
 [![PyPI](https://img.shields.io/pypi/v/synapse-layer?label=PyPI&color=blue)](https://pypi.org/project/synapse-layer/)
 [![MCP Compatible](https://img.shields.io/badge/MCP-Compatible-6B4FBB)](https://modelcontextprotocol.io/)
 [![AES-256-GCM](https://img.shields.io/badge/AES--256--GCM-Encrypted_at_Rest-success)](https://github.com/SynapseLayer/synapse-sdk-python)
-[![Server Never Sees Plaintext](https://img.shields.io/badge/Server-Never_Sees_Plaintext-informational)](https://github.com/SynapseLayer/synapse-sdk-python)
+[![State Continuity](https://img.shields.io/badge/State_Continuity-Layer-informational)](https://github.com/SynapseLayer/synapse-sdk-python)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](./LICENSE)
 [![Tests Passing](https://img.shields.io/badge/Tests-Passing-brightgreen)](https://github.com/SynapseLayer/synapse-sdk-python)
 
@@ -22,7 +22,7 @@ Superpowers proved agents need discipline. Synapse provides the **continuity lay
 | Capability | Description |
 |---|---|
 | **State Continuity** | OAuth for AI Memory. Persistent context across sessions and models. |
-| **Privacy First** | Server never sees plaintext. AES-256-GCM encrypted at rest, server-side. |
+| **Privacy First** | AES-256-GCM encrypted at rest with per-operation random IV. PII redaction pipeline. |
 | **Agent-Native** | 30-second install. Built for the MCP ecosystem. |
 | **Cross-Agent** | Share memory between agents via A2A protocol. |
 | **Trust Quotient** | Weighted memory ranking: confidence, recency, and usage. |
@@ -140,7 +140,7 @@ recall_tool = SynapseRecallMemoryTool(api_key="your-key")
 | **Privacy** | Differential privacy via Gaussian noise on embeddings. |
 | **Validation** | Intent validation pipeline with confidence scoring. |
 
-> The server never sees plaintext. All sensitive data is encrypted before storage.
+> All sensitive data is AES-256-GCM encrypted at rest with per-operation random IV.
 
 ---
 
