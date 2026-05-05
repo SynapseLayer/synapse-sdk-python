@@ -8,7 +8,7 @@ version = "2.3.3"
 authors = [
   { name="Synapse Layer", email="founder.synapselayer@proton.me" },
 ]
-description = "Persistent memory infrastructure for AI agents — State Continuity Layer."
+description = "Python SDK for Synapse Layer — persistent, encrypted, cross-agent memory for AI agents."
 readme = "README.md"
 requires-python = ">=3.9"
 classifiers = [
