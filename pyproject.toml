@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "synapse-layer"
-version = "2.4.0"
+version = "2.4.1"
 authors = [
   { name="Synapse Layer", email="founder.synapselayer@proton.me" },
 ]
@@ -30,9 +30,10 @@ crewai = ["crewai>=0.1.0"]
 
 [project.urls]
 "Homepage" = "https://synapselayer.org"
+"Repository" = "https://github.com/SynapseLayer/synapse-layer"
 "Bug Tracker" = "https://github.com/SynapseLayer/synapse-sdk-python/issues"
 "Documentation" = "https://synapselayer.org/docs"
-"Repository" = "https://github.com/SynapseLayer/synapse-sdk-python"
+"SDK Repository" = "https://github.com/SynapseLayer/synapse-sdk-python"
 
 [tool.setuptools.packages.find]
 where = ["."]
