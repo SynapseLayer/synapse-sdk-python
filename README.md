@@ -5,7 +5,6 @@
 [![AES-256-GCM](https://img.shields.io/badge/AES--256--GCM-Encrypted_at_Rest-success)](https://github.com/SynapseLayer/synapse-sdk-python)
 [![State Continuity](https://img.shields.io/badge/State_Continuity-Layer-informational)](https://github.com/SynapseLayer/synapse-sdk-python)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](./LICENSE)
-[![Tests Passing](https://img.shields.io/badge/Tests-Passing-brightgreen)](https://github.com/SynapseLayer/synapse-sdk-python)
 
 > **RAG retrieves. Synapse remembers.**
 
