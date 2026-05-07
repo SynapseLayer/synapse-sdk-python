@@ -8,7 +8,7 @@ version = "2.4.1"
 authors = [
   { name="Synapse Layer", email="founder.synapselayer@proton.me" },
 ]
-description = "Python SDK for Synapse Layer — persistent, encrypted, cross-agent memory for AI agents."
+description = "Python SDK for Synapse Layer — persistent memory infrastructure for AI agents, AES-256-GCM encrypted at rest."
 readme = "README.md"
 requires-python = ">=3.9"
 classifiers = [
@@ -17,6 +17,15 @@ classifiers = [
     "Operating System :: OS Independent",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
     "Intended Audience :: Developers",
+]
+keywords = [
+  "mcp",
+  "memory",
+  "ai-agents",
+  "pgvector",
+  "encryption",
+  "persistent-memory",
+  "python-sdk",
 ]
 dependencies = [
     "requests>=2.25.0",
@@ -30,7 +39,7 @@ crewai = ["crewai>=0.1.0"]
 
 [project.urls]
 "Homepage" = "https://synapselayer.org"
-"Repository" = "https://github.com/SynapseLayer/synapse-layer"
+"Repository" = "https://github.com/SynapseLayer/synapse-sdk-python"
 "Bug Tracker" = "https://github.com/SynapseLayer/synapse-sdk-python/issues"
 "Documentation" = "https://synapselayer.org/docs"
 "SDK Repository" = "https://github.com/SynapseLayer/synapse-sdk-python"
