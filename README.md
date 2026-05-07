@@ -1,14 +1,15 @@
-# Synapse Layer
+# Synapse Layer — Python SDK
 
 [![PyPI](https://img.shields.io/pypi/v/synapse-layer?label=PyPI&color=blue)](https://pypi.org/project/synapse-layer/)
 [![MCP Compatible](https://img.shields.io/badge/MCP-Compatible-6B4FBB)](https://modelcontextprotocol.io/)
 [![AES-256-GCM](https://img.shields.io/badge/AES--256--GCM-Encrypted_at_Rest-success)](https://github.com/SynapseLayer/synapse-sdk-python)
-[![State Continuity](https://img.shields.io/badge/State_Continuity-Layer-informational)](https://github.com/SynapseLayer/synapse-sdk-python)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](./LICENSE)
 
 > **RAG retrieves. Synapse remembers.**
 
-Persistent memory infrastructure for AI agents — encrypted, governed, and cross-agent.
+**Persistent memory infrastructure for AI agents — AES-256-GCM encrypted at rest, semantic search, MCP-native.**
+
+Synapse Layer is open-source persistent memory infrastructure for AI agents and assistants. Memories are encrypted at rest with AES-256-GCM, indexed via pgvector HNSW for semantic recall, and exposed through MCP JSON-RPC for native integration with Claude, GPT, Gemini, and any MCP-compatible client. Apache 2.0 licensed.
 
 ---
 
@@ -39,8 +40,8 @@ Superpowers proved agents need discipline. Synapse provides the **continuity lay
 
 | Capability | Description |
 |---|---|
-| **State Continuity** | OAuth for AI Memory. Persistent context across sessions and models. |
-| **Privacy First** | Server never sees plaintext. AES-256-GCM encrypted at rest with per-operation random IV. |
+| **State Continuity** | Persistent context across sessions and models. |
+| **Encrypted at Rest** | AES-256-GCM encrypted at rest with per-operation random IV. |
 | **Agent-Native** | 30-second install. Built for the MCP ecosystem. |
 | **Cross-Agent** | Share memory between agents via A2A protocol. |
 | **Trust Quotient** | Weighted memory ranking: confidence, recency, and usage. |
@@ -158,7 +159,7 @@ recall_tool = SynapseRecallMemoryTool(api_key="your-key")
 | **Privacy** | Differential privacy via Gaussian noise on embeddings. |
 | **Validation** | Intent validation pipeline with confidence scoring. |
 
-> Server never sees plaintext. All sensitive data is AES-256-GCM encrypted at rest with per-operation random IV. Designed for LGPD/GDPR alignment.
+> All sensitive data is AES-256-GCM encrypted at rest with per-operation random IV. Designed for LGPD/GDPR alignment.
 
 ---
 
@@ -203,13 +204,23 @@ Higher TQ scores surface the most relevant and reliable memories first. The exac
 
 ---
 
+## Related Projects
+
+| Project | Description |
+|---------|-------------|
+| [synapse-layer](https://github.com/SynapseLayer/synapse-layer) | Core server — MCP endpoint, encryption engine, pgvector indexing |
+| [synapse-layer-skill](https://github.com/SynapseLayer/synapse-layer-skill) | MCP skill configuration for Claude Desktop, Cursor, Windsurf |
+| [synapse-layer-langgraph](https://github.com/SynapseLayer/synapse-layer-langgraph) | LangGraph checkpoint saver with encrypted state persistence |
+
+---
+
 ## Links
 
 - **Website**: [synapselayer.org](https://synapselayer.org)
 - **Forge (Dashboard)**: [forge.synapselayer.org](https://forge.synapselayer.org)
 - **Documentation**: [synapselayer.org/docs](https://synapselayer.org/docs)
 - **Issues**: [GitHub Issues](https://github.com/SynapseLayer/synapse-sdk-python/issues)
-- **MCP Server**: [Smithery](https://smithery.ai/server/@nicholasmarchi/synapse-layer)
+- **MCP Server**: [Smithery](https://smithery.ai/server/@SynapseLayer/synapse-layer)
 
 ---
 
@@ -221,7 +232,7 @@ Apache 2.0 — see [LICENSE](./LICENSE) for details.
 
 <p align="center">
   <strong>Synapse Layer</strong><br>
-  Persistent memory infrastructure for AI agents.<br><br>
+  Persistent memory infrastructure for AI agents — AES-256-GCM encrypted at rest, semantic search, MCP-native.<br><br>
   <a href="https://pypi.org/project/synapse-layer/">PyPI</a> ·
   <a href="https://synapselayer.org">Website</a> ·
   <a href="https://forge.synapselayer.org">Forge</a>
