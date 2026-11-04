@@ -1,5 +1,12 @@
 # Synapse Layer — Python SDK
 
+> **LEGACY / UNMAINTAINED (04/11/2026).** This repository is **not** the package
+> published on PyPI. `pip install synapse-layer` installs the core package
+> (currently 2.4.6). The APIs documented here are outdated: `recall` requires a
+> `reason` under `MEMORY_EXPORT_GOVERNANCE_V1`, and `SynapseA2AClient` targets
+> JSON-RPC methods that no longer exist. Use the canonical core repository:
+> https://github.com/SynapseLayer/synapse-layer
+
 [![PyPI](https://img.shields.io/pypi/v/synapse-layer?label=PyPI&color=blue)](https://pypi.org/project/synapse-layer/)
 [![MCP Compatible](https://img.shields.io/badge/MCP-Compatible-6B4FBB)](https://modelcontextprotocol.io/)
 [![AES-256-GCM](https://img.shields.io/badge/AES--256--GCM-Encrypted_at_Rest-success)](https://github.com/SynapseLayer/synapse-sdk-python)
